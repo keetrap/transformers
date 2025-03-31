@@ -49,6 +49,9 @@ from .image_processing_conditional_detr import (
 
 if is_torch_available():
     import torch
+
+
+if is_torch_available():
     from torch import nn
 
 
@@ -69,6 +72,9 @@ class ConditionalDetrFastImageProcessorKwargs(DefaultFastImageProcessorKwargs):
     do_pad: Optional[bool]
     pad_size: Optional[Dict[str, int]]
     return_segmentation_masks: Optional[bool]
+
+
+SUPPORTED_ANNOTATION_FORMATS = (AnnotationFormat.COCO_DETECTION, AnnotationFormat.COCO_PANOPTIC)
 
 
 # inspired by https://github.com/facebookresearch/conditional_detr/blob/master/datasets/coco.py#L33
@@ -266,9 +272,6 @@ def prepare_coco_panoptic_annotation(
         )
 
     return new_target
-
-
-SUPPORTED_ANNOTATION_FORMATS = (AnnotationFormat.COCO_DETECTION, AnnotationFormat.COCO_PANOPTIC)
 
 
 @add_start_docstrings(
@@ -794,7 +797,7 @@ class ConditionalDetrImageProcessorFast(BaseImageProcessorFast):
         top_left_y, bottom_right_x, bottom_right_y) format. Only supports PyTorch.
 
         Args:
-            outputs ([`DetrObjectDetectionOutput`]):
+            outputs ([`ConditionalDetrObjectDetectionOutput`]):
                 Raw outputs of the model.
             threshold (`float`, *optional*):
                 Score threshold to keep object detection predictions.
